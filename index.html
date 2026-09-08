@@ -4,14 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>FinanceFlow — Personal Finance Dashboard</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
     <header class="navbar">
 
         <div class="logo">
@@ -24,7 +21,12 @@
             <a href="#">Reports</a>
         </nav>
 
-        <button id="themeToggle">
+        <button
+            id="themeToggle"
+            type="button"
+            aria-label="Toggle dark mode"
+            title="Toggle dark mode"
+        >
             🌙
         </button>
 
@@ -32,17 +34,32 @@
 
 
     <main>
-
         <section class="dashboard-header">
 
-            <div>
+            <div class="dashboard-title">
+
                 <h1>Financial Overview</h1>
                 <p>Track your money and stay in control.</p>
+
             </div>
 
-            <button id="addTransactionBtn">
-                + Add Transaction
-            </button>
+            <div class="dashboard-actions">
+
+                <button id="importDataBtn" class="secondary-btn" type="button">
+                    Import Data
+                </button>
+
+                <input type="file" id="importFileInput" accept=".json,application/json" hidden>
+
+                <button id="exportDataBtn" class="secondary-btn" type="button">
+                    Export Data
+                </button>
+
+                <button id="addTransactionBtn" type="button">
+                    + Add Transaction
+                </button>
+
+            </div>
 
         </section>
 
@@ -51,17 +68,17 @@
 
             <article class="summary-card balance-card">
                 <h3>Total Balance</h3>
-                <p id="balance">$0.00</p>
+                <p id="balance">TZS 0.00</p>
             </article>
 
             <article class="summary-card income-card">
                 <h3>Income</h3>
-                <p id="income">$0.00</p>
+                <p id="income">TZS 0.00</p>
             </article>
 
             <article class="summary-card expense-card">
                 <h3>Expenses</h3>
-                <p id="expenses">$0.00</p>
+                <p id="expenses">TZS 0.00</p>
             </article>
 
         </section>
@@ -124,7 +141,6 @@
 
             </div>
 
-
             <aside class="expenses-section">
                 <h2>Expense Breakdown</h2>
                 <div id="expenseBreakdown" class="expense-chart">
@@ -134,13 +150,71 @@
                 </div>
             </aside>
 
+            <aside class="comparison-section">
+                <h2>Income vs. Expenses</h2>
+                <div id="incomeExpenseChart">
+                    <p class="empty-state">
+                        No financial data available.
+                    </p>
+                </div>
+            </aside>
+
+            <section class="spending-trend-section">
+
+                <h2>Monthly Spending Trend</h2>
+
+                <p class="section-description">
+                    Track how your expenses change over time.
+                </p>
+
+                <div id="spendingTrendChart">
+
+                    <p class="empty-state">
+                        No spending data available.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <section class="statistics-section">
+
+                <div class="section-header">
+                    <div>
+                        <h2>Financial Overview</h2>
+                        <p>Key statistics from your financial activity.</p>
+                    </div>
+                </div>
+
+                <div id="financialStatistics" class="statistics-grid">
+
+                    <div class="stat-card">
+                        <span class="stat-label">Savings Rate</span>
+                        <span class="stat-value" id="savingsRate">0%</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Average Expense</span>
+                        <span class="stat-value" id="averageExpense">$0.00</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Largest Expense</span>
+                        <span class="stat-value" id="largestExpense">$0.00</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Transactions</span>
+                        <span class="stat-value" id="transactionCount">0</span>
+                    </div>
+
+                </div>
+
+            </section>
+
         </section>
 
     </main>
-
-    <!-- =========================================
-        ADD TRANSACTION MODAL
-    ========================================= -->
 
     <div class="modal-overlay" id="transactionModal">
 
@@ -157,6 +231,8 @@
                     type="button"
                     class="close-modal"
                     id="closeModalBtn"
+                    aria-label="Close transaction form"
+                    title="Close"
                 >
                     ×
                 </button>
@@ -165,8 +241,6 @@
 
 
             <form id="transactionForm">
-
-                <!-- Description -->
 
                 <div class="form-group">
 
@@ -179,13 +253,9 @@
                         id="description"
                         name="description"
                         placeholder="e.g. Grocery shopping"
-                        required
                     >
 
                 </div>
-
-
-                <!-- Amount -->
 
                 <div class="form-group">
 
@@ -204,9 +274,6 @@
                     >
 
                 </div>
-
-
-                <!-- Transaction Type -->
 
                 <div class="form-group">
 
@@ -227,9 +294,6 @@
                     </select>
 
                 </div>
-
-
-                <!-- Category -->
 
                 <div class="form-group">
 
@@ -275,9 +339,6 @@
 
                 </div>
 
-
-                <!-- Date -->
-
                 <div class="form-group">
 
                     <label for="date">
@@ -288,13 +349,17 @@
                         type="date"
                         id="date"
                         name="date"
-                        required
+                        
                     >
 
                 </div>
 
-
-                <!-- Actions -->
+                <p
+                    id="formError"
+                    class="form-error"
+                    role="alert"
+                    aria-live="polite"
+                ></p>
 
                 <div class="modal-actions">
 
@@ -321,6 +386,7 @@
 
     </div>
 
+    <div id="toastContainer" class="toast-container"></div>
 
     <script src="script.js"></script>
 

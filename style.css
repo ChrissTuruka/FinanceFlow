@@ -1,17 +1,8 @@
-/* =========================================
-   RESET
-========================================= */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-
-/* =========================================
-   ROOT VARIABLES
-========================================= */
 
 :root {
     --primary: #2563eb;
@@ -30,12 +21,17 @@
     --expense: #dc2626;
 
     --radius: 12px;
+
 }
 
-
-/* =========================================
-   BASE
-========================================= */
+.dark-theme {
+    --background: #0f172a;
+    --surface: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border: #334155;
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -44,13 +40,13 @@ body {
     color: var(--text-primary);
 
     line-height: 1.6;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
 }
 
-
-
-/* =========================================
-   NAVBAR
-========================================= */
+/* Navbar */
 
 .navbar {
     display: flex;
@@ -108,10 +104,7 @@ body {
     padding: 0.5rem;
 }
 
-
-/* =========================================
-   MAIN
-========================================= */
+/* Main */
 
 main {
     width: min(1200px, 90%);
@@ -120,11 +113,6 @@ main {
 
     padding: 3rem 0 5rem;
 }
-
-
-/* =========================================
-   DASHBOARD HEADER
-========================================= */
 
 .dashboard-header {
     display: flex;
@@ -151,10 +139,16 @@ main {
     font-size: 0.95rem;
 }
 
+.dashboard-title {
+    flex: 1;
+}
 
-/* =========================================
-   BUTTONS
-========================================= */
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
 
 button {
     border: none;
@@ -174,6 +168,17 @@ button {
         transform 0.2s ease;
 }
 
+.secondary-btn {
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.secondary-btn:hover {
+    background: var(--background);
+    color: var(--text-primary);
+    border-color: #cbd5e1;
+}
 
 #addTransactionBtn {
     background: var(--primary);
@@ -188,11 +193,6 @@ button {
     transform: translateY(-1px);
 }
 
-
-/* =========================================
-   SUMMARY CARDS
-========================================= */
-
 .summary-cards {
     display: grid;
 
@@ -205,6 +205,8 @@ button {
 
 
 .summary-card {
+    position: relative;
+
     background: var(--surface);
 
     padding: 1.5rem;
@@ -214,28 +216,57 @@ button {
     border: 1px solid var(--border);
 
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.08);
 }
 
 
 .summary-card h3 {
     color: var(--text-secondary);
 
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 
-    font-weight: 600;
+    font-weight: 700;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
 }
 
 
 .summary-card p {
     margin-top: 0.5rem;
 
-    font-size: 1.8rem;
+    font-size: 1.9rem;
 
     font-weight: 700;
+
+    letter-spacing: -0.02em;
+}
+
+.summary-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: var(--primary);
 }
 
 .income-card p {
@@ -247,10 +278,13 @@ button {
     color: var(--expense);
 }
 
+.income-card::before {
+    background: var(--income);
+}
 
-/* =========================================
-   DASHBOARD CONTENT
-========================================= */
+.expense-card::before {
+    background: var(--expense);
+}
 
 .dashboard-content {
     display: grid;
@@ -291,40 +325,34 @@ button {
 }
 
 
-.empty-state {
-    color: var(--text-muted);
-
-    text-align: center;
-
-    padding: 3rem 1rem;
-
-    font-size: 0.9rem;
-}
-
-/* =========================================
-   TRANSACTION MODAL
-========================================= */
+/* Modal */
 
 .modal-overlay {
     position: fixed;
-
     inset: 0;
 
-    background: rgba(15, 23, 42, 0.55);
-
-    display: none;
-
+    display: flex;
     align-items: center;
     justify-content: center;
 
     padding: 1rem;
 
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(3px);
+
     z-index: 1000;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
 }
 
-
 .modal-overlay.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
 }
 
 
@@ -343,12 +371,19 @@ button {
 
     box-shadow:
         0 20px 50px rgba(15, 23, 42, 0.2);
+
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
 }
 
-
-/* =========================================
-   MODAL HEADER
-========================================= */
+.modal-overlay.active .transaction-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
 
 .modal-header {
     display: flex;
@@ -391,11 +426,6 @@ button {
 .close-modal:hover {
     color: var(--text-primary);
 }
-
-
-/* =========================================
-   FORM
-========================================= */
 
 #transactionForm {
     display: flex;
@@ -461,11 +491,6 @@ button {
     color: var(--text-muted);
 }
 
-
-/* =========================================
-   MODAL ACTIONS
-========================================= */
-
 .modal-actions {
     display: flex;
 
@@ -499,10 +524,6 @@ button {
 .submit-btn:hover {
     background: var(--primary-dark);
 }
-
-/* =========================================
-   TRANSACTIONS
-========================================= */
 
 .transaction-item {
     display: flex;
@@ -558,22 +579,15 @@ button {
     color: var(--expense);
 }
 
-/* =========================================
-   EXPENSE BREAKDOWN
-========================================= */
-
 .expense-item {
     display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 0.5rem;
 
     padding: 0.85rem 0;
 
     border-bottom: 1px solid var(--border);
 }
-
 
 .expense-item:last-child {
     border-bottom: none;
@@ -581,26 +595,10 @@ button {
 
 
 .expense-category {
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
-
-
-.expense-category span {
-    font-size: 0.85rem;
-}
-
-
-.expense-item strong {
-    font-size: 0.85rem;
-}
-
-/* =========================================
-   TRANSACTION ACTIONS
-========================================= */
 
 .transaction-right {
     display: flex;
@@ -658,10 +656,6 @@ button {
     color: var(--text-muted);
 }
 
-/* =====================================================
-   TRANSACTION CONTROLS
-   ===================================================== */
-
 .transaction-controls {
     display: flex;
     align-items: center;
@@ -717,20 +711,12 @@ button {
     border-color: #cbd5e1;
 }
 
-/* =====================================================
-   EXPENSE BREAKDOWN CHART
-   ===================================================== */
+/* Expense Breakdown Charts */
 
 .expense-chart {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-}
-
-.expense-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
 }
 
 .expense-item-header {
@@ -779,9 +765,359 @@ button {
     color: var(--primary);
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* Income vs Expenses */
+
+.comparison-section {
+    margin-top: 1.5rem;
+}
+
+.comparison-section h2 {
+    margin-bottom: 1.5rem;
+}
+
+#incomeExpenseChart {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.comparison-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.comparison-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.comparison-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comparison-amount {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.comparison-amount.income {
+    color: var(--income);
+}
+
+.comparison-amount.expense {
+    color: var(--expense);
+}
+
+.comparison-bar-container {
+    width: 100%;
+    height: 12px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.comparison-bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.income-bar {
+    background: var(--income);
+}
+
+.expense-bar {
+    background: var(--expense);
+}
+
+/* Monthly Trend */
+
+.spending-trend-section {
+    margin-top: 1.5rem;
+}
+
+.spending-trend-section h2 {
+    margin-bottom: 0.5rem;
+}
+
+.section-description {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+#spendingTrendChart {
+    width: 100%;
+    min-height: 250px;
+    padding: 1rem 0;
+}
+
+.spending-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    width: 100%;
+    height: 280px;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.spending-bar-item {
+    flex: 1;
+    height: 100%;
+    min-width: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spending-bar-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.spending-bar {
+    width: 100%;
+    min-height: 4px;
+    background: var(--primary);
+    border-radius: 8px 8px 0 0;
+    transition: height 0.4s ease;
+}
+
+.spending-month {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.spending-amount {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.statistics-section {
+    margin-top: 1.5rem;
+}
+
+.statistics-section h2 {
+    margin-bottom: 0.5rem;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.stat-card {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.transaction-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+
+    flex-shrink: 0;
+}
+
+.transaction-icon.income {
+    background: rgba(22, 163, 74, 0.1);
+    color: var(--income);
+}
+
+.transaction-icon.expense {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--expense);
+}
+
+.dark-theme input,
+.dark-theme select {
+    background: var(--surface);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-theme input::placeholder {
+    color: var(--text-muted);
+}
+
+.dark-theme select option {
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.dark-theme .transaction-modal {
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+.dark-theme .modal-header p {
+    color: var(--text-secondary);
+}
+
+.dark-theme .close-modal {
+    color: var(--text-secondary);
+}
+
+.dark-theme .cancel-btn {
+    background: var(--background);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.dark-theme .transaction-controls input,
+.dark-theme .transaction-controls select {
+    background: var(--surface);
+    color: var(--text-primary);
+    border-color: var(--border);
+}
+
+.toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    z-index: 2000;
+}
+
+.toast {
+    min-width: 260px;
+    max-width: 360px;
+
+    padding: 0.9rem 1rem;
+
+    background: var(--surface);
+    color: var(--text-primary);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    opacity: 0;
+    transform: translateY(10px);
+
+    animation: toast-in 0.25s ease forwards;
+}
+
+.toast.success {
+    border-left: 4px solid var(--income);
+}
+
+.toast.error {
+    border-left: 4px solid var(--expense);
+}
+
+@keyframes toast-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.toast.hide {
+    animation: toast-out 0.25s ease forwards;
+}
+
+@keyframes toast-out {
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.form-error {
+    display: none;
+
+    margin: 0;
+    padding: 0.75rem 1rem;
+
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    border-radius: 8px;
+
+    background: rgba(220, 38, 38, 0.08);
+    color: var(--expense);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.form-error.visible {
+    display: block;
+}
+
+.form-input-error {
+    border-color: var(--expense) !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.form-input-error:focus {
+    border-color: var(--expense) !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
 
 @media (max-width: 768px) {
 
@@ -811,7 +1147,12 @@ button {
     }
 
 
-    #addTransactionBtn {
+    .dashboard-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .dashboard-actions button {
         width: 100%;
     }
 
@@ -833,6 +1174,43 @@ button {
 
     .transaction-controls input,
     .transaction-controls select {
+        width: 100%;
+    }
+
+    .statistics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .transaction-left {
+        min-width: 0;
+    }
+
+    .transaction-info {
+        min-width: 0;
+    }
+
+    .transaction-info strong {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .statistics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .toast {
+        min-width: 0;
         width: 100%;
     }
 
