@@ -944,9 +944,19 @@ function renderExpenseBreakdown() {
 
     if (categories.length === 0) {
         expenseBreakdown.innerHTML = `
-            <p class="empty-state">
-                No expense data available.
-            </p>
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    📊
+                </div>
+
+                <h3>No expense data</h3>
+
+                <p>
+                    Your expense breakdown will appear here once you record an expense.
+                </p>
+
+            </div>
         `;
 
         return;
