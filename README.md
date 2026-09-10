@@ -37,7 +37,37 @@ It allows users to record, manage, and analyze their income and expenses directl
 
 ## Screenshots
 
-Screenshots will be added here.
+### Dashboard - Light Mode
+
+![FinanceFlow Dashboard - Light Mode](assets/screenshots/Finance%20Flow%201%20-%20Light%20Full%20(2).png)
+
+### Dashboard - Dark Mode
+
+![FinanceFlow Dashboard - Dark Mode](assets/screenshots/Finance%20Flow%202%20-%20Dark%20Full%20(2).png)
+
+### Dashboard with Transactions - Light Mode
+
+![FinanceFlow Dashboard with Transactions - Light](assets/screenshots/Finance%20Flow%203%20-%20Transactions%20Light.png)
+
+### Dashboard with Transactions - Dark Mode
+
+![FinanceFlow Dashboard with Transactions - Dark](assets/screenshots/Finance%20Flow%204%20-%20Transactions%20Dark.png)
+
+### Add Transaction - Light
+
+![FinanceFlow Add Transaction - Light](assets/screenshots/Finance%20Flow%205%20-%20Transaction%20Modal%20Light.png)
+
+### Add Transaction - Dark
+
+![FinanceFlow Add Transaction - Dark](assets/screenshots/Finance%20Flow%206%20-%20Transaction%20Modal%20Dark.png)
+
+### Mobile Dashboard - Light
+
+![FinanceFlow Mobile Dashboard - Light](assets/screenshots/Finance%20Flow%207%20-%20Mobile%20Light.png)
+
+### Mobile Dashboard - Dark
+
+![FinanceFlow Mobile Dashboard - Dark](assets/screenshots/Finance%20Flow%208%20-%20Mobile%20Dark.png)
 
 ## Project Structure
 
