@@ -2,7 +2,7 @@
 
 FinanceFlow is a responsive personal finance dashboard built with **HTML, CSS, and Vanilla JavaScript**.
 
-It allows users to record, manage, and analyze their income and expenses directly in the browser. Financial data is stored locally using the browser's **localStorage API**, with support for exporting and importing data as JSON backups.
+FinanceFlow helps users track income and expenses, analyze spending patterns, and manage their financial data directly in the browser. The application uses **localStorage** for persistence and supports JSON-based data backup and restoration.
 
 ## Features
 
@@ -26,6 +26,18 @@ It allows users to record, manage, and analyze their income and expenses directl
 * Form validation and error handling
 * Toast notifications
 * Defensive validation of imported data
+
+## Key Highlights
+
+* Fully client-side application with no backend dependency
+* Persistent financial data using the Web Storage API
+* JSON backup and restoration system
+* Responsive design across desktop, tablet, and mobile
+* Light and dark themes with saved user preference
+* Dynamic financial calculations and visualizations
+* Keyboard-accessible transaction modal
+* Client-side validation and defensive data handling
+* Security-conscious DOM rendering for user-provided transaction data
 
 ## Tech Stack
 
@@ -90,6 +102,10 @@ No installation or build process is required.
 3. Open `index.html` in a modern web browser.
 
 Alternatively, the project can be served using a simple local development server such as the VS Code Live Server extension.
+
+## Demo
+
+**Live Demo:** [View FinanceFlow](https://finance-flow-hazel-kappa.vercel.app/)
 
 ## Data Storage
 
